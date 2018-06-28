@@ -1,0 +1,18 @@
+server:
+  port: 8088
+##########################################################
+######################  HBase 配置  #######################
+##########################################################
+hbase:
+  ## Hbase的Master的端口
+  master: hbase01.com:60000
+  zookeeper:
+    ## Zookeeper 集群的地址列表，用逗号分割
+    quorum: zk01.com,zk02.com,zk03.com
+    ## ZooKeeper的zoo.conf中的配置。客户端连接的端口
+    property:
+      clientPort: 2181
+## ZooKeeper中的Hbase的根ZNode
+zookeeper:
+  znode:
+    parent: /hbase
