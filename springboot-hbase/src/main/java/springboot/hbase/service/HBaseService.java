@@ -7,10 +7,10 @@ import org.apache.hadoop.hbase.filter.FirstKeyOnlyFilter;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import springboot.hbase.config.HBaseConnectionFactory;
 import springboot.hbase.entity.PutInfo;
 import springboot.hbase.entity.ResultInfo;
 import springboot.hbase.exception.ServiceException;
+import springboot.hbase.util.HBaseConnectionPool;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,7 +45,8 @@ public class HBaseService {
 	 */
 	public long countByTableName(String tableName) throws IOException {
 		long count = 0L;
-		Connection connection = HBaseConnectionFactory.connection;
+		HBaseConnectionPool.getInstance();
+		Connection connection = HBaseConnectionPool.getConnection().getConnection();
 		Table table = connection.getTable(TableName.valueOf(tableName));
 		Scan scan = new Scan();
 		scan.setFilter(new FirstKeyOnlyFilter());
@@ -300,12 +301,14 @@ public class HBaseService {
 
 
 	private Admin getAdmin() throws IOException {
-		Connection connection = HBaseConnectionFactory.connection;
+		HBaseConnectionPool.getInstance();
+		Connection connection = HBaseConnectionPool.getConnection().getConnection();
 		return connection.getAdmin();
 	}
 
 	private Table getTableByTableName(String tableName) throws IOException {
-		Connection connection = HBaseConnectionFactory.connection;
+		HBaseConnectionPool.getInstance();
+		Connection connection = HBaseConnectionPool.getConnection().getConnection();
 		return connection.getTable(TableName.valueOf(tableName));
 	}
 
