@@ -173,6 +173,17 @@ public class HBaseOperationController {
 						.build());
 	}
 
+	@ApiOperation(tags = "HBase", value = "删除行数据")
+	@DeleteMapping("/removeRow/{tableName}")
+	public ResponseEntity removeRow(@PathVariable(value = "tableName") String tableName, @RequestBody List<String> rowKeys) throws IOException {
+		hBaseService.removeRow(tableName, rowKeys);
+		return ResponseEntity.ok(ResponseBody
+						.builder()
+						.code(200)
+						.msg("success")
+						.build());
+	}
+
 	private Map<String, Object> buildDataMap(String key, Object value) {
 		Map<String, Object> data = new HashMap<>();
 		if (!Objects.isNull(value)) {

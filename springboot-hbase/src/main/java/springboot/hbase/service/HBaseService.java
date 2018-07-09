@@ -289,6 +289,18 @@ public class HBaseService {
 		return map;
 	}
 
+	/**
+	 * 根据rowkey	删除数据
+	 *
+	 * @param tableName
+	 * @param rowKeyList
+	 */
+	public void removeRow(String tableName, List<String> rowKeyList) throws IOException {
+		Table table = getTableByTableName(tableName);
+		List<Delete> list = rowKeyList.stream().map(r -> new Delete(r.getBytes())).collect(Collectors.toList());
+		table.delete(list);
+	}
+
 
 	private void isExistTable(String tableName) throws IOException {
 		Admin admin = getAdmin();
